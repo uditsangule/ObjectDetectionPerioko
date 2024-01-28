@@ -25,7 +25,7 @@ def save_(image , outputh):
     if image.shape[0] * image.shape[1]: cv2.imwrite(filename=outputh + '.png' , img=image)
     return
 
-def putconts(image , contours , color , filled=True):
+def putconts(image , contours , color ,minrect=False, filled=True):
     """
     draw contours on image with specified color
     :param image: image to draw
@@ -34,6 +34,9 @@ def putconts(image , contours , color , filled=True):
     :param filled: if True , returns filled contour else returns edges
     :return: None
     """
+    if minrect:
+        obox = cv2.minAreaRect(contours.astype(np.int32))
+        contours = cv2.boxPoints(obox)
     if filled:
         return cv2.fillPoly(img=image ,pts=[contours.astype(np.int32)] , color=color.tolist())
     else:

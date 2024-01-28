@@ -17,6 +17,7 @@ def show_roi(frame_ ,out, frequency , args):
     return frequency
 
 def streamVideo(videopath, outputpath ,args):
+
     accptedcls = ['cup', 'tv', 'cell phone']
     cap = cv2.VideoCapture(videopath)#0 if os.path.exists(videopath) else videopath)
     currtime = imp.get_currDT()
@@ -25,6 +26,7 @@ def streamVideo(videopath, outputpath ,args):
     modelpath = os.path.join('..','Sources','model','yolov8m-seg.pt')
     model = YOLO(modelpath)
     accpt_cls_ids = np.array([id for id , name in model.names.items() if name in accptedcls]) if not args.all else None
+    minrect = [62,63,67]
     freq = dict()
     fno = 0
     uniqcols = imp.uniquecols(n_cols=len(model.names))
@@ -57,8 +59,9 @@ def streamVideo(videopath, outputpath ,args):
 
             if conf > 0.8 :imp.save_(image=frame_roi , outputh=imp.Fstatus(args.output+os.sep+os.path.basename(videopath).split('.',-1)[0] + os.sep + '{0}_{1}'.format(trackid,label) + os.sep) + str(fno))
             imp.showim(image=frame_[bbox[1]:bbox[3], bbox[0]:bbox[2], :], windowname=str(trackid)+'_' + str(label))
-            mask_ = imp.putconts(mask_ , contours=tracker[0].masks.xy[i_] , color=uniqcols[clsid],filled=True)
-            frame_ = imp.putconts(frame_ , contours=tracker[0].masks.xy[i_] , color=uniqcols[clsid],filled=False)
+
+            mask_ = imp.putconts(mask_ , contours=tracker[0].masks.xy[i_] ,minrect=True if clsid in minrect else False , color=uniqcols[clsid],filled=True)
+            frame_ = imp.putconts(frame_ , contours=tracker[0].masks.xy[i_] ,minrect=True if clsid in minrect else False ,color=uniqcols[clsid],filled=False)
             frame_ = imp.puttext(image=frame_ , pos=(int(bbox[0]+bbox[2])//2 , int(bbox[1]+bbox[3])//2) , text=label , color=tuple(uniqcols[clsid].tolist()))
             print(f"Clip:{os.path.basename(videopath)} - Timestamp:{imp.timedelta(milliseconds=cap.get(cv2.CAP_PROP_POS_MSEC))} - Object:{label} - Confidence:{np.round(100*conf,2)}%")
         freq = show_roi(frame_=frame_ ,frequency=freq,out=tracker , args=args)
