@@ -40,8 +40,8 @@ def streamVideo(videopath, outputpath ,args):
         #out = model.predict(frame_ , verbose=False , classes=accpt_cls_ids)
         for i_ in range(len(tracker[0].boxes.cls)):
             bbox = tracker[0].boxes.xyxy[i_].int().cpu()
-            clsid , conf , trackid = int(tracker[0].boxes.cls[i_]) , float(tracker[0].boxes.conf[i_]) ,int(tracker[0].boxes.id[i_])
-
+            try:clsid , conf , trackid = int(tracker[0].boxes.cls[i_]) , float(tracker[0].boxes.conf[i_]) ,int(tracker[0].boxes.id[i_])
+            except TypeError as e: print(e); continue
             label = model.names.__getitem__(clsid)
             freq['{0}_{1}'.format(trackid,label)] = args.alive
             w , h = tracker[0].boxes.xywh[i_].int().cpu()[2:].tolist()

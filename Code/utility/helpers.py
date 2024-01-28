@@ -22,7 +22,8 @@ def save_(image , outputh):
     :param outputh: path to save the image
     :return: None
     """
-    return cv2.imwrite(filename=outputh + '.png' , img=image)
+    if image.shape[0] * image.shape[1]: cv2.imwrite(filename=outputh + '.png' , img=image)
+    return
 
 def putconts(image , contours , color , filled=True):
     """
