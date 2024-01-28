@@ -1,0 +1,54 @@
+﻿Documentation/Notes on Object Detection and Tracking:
+
+Note: Please read the README.md file before running the code for understanding the parameters and Output.
+
+1. Time sheet of Overall Work:
+
+
+Date
+Time Taken (hrs)
+Work
+Status
+24/01
+ 3 – 4
+Understanding Problem statement , Plannning and Strategizing Approach
+Done
+25/01
+5 -6 
+Coding Work, File Structuring and Implenting the version 1.0
+Done
+27/01
+2 -3
+Bug Fixes and Further Optimization of Codes
+Done
+28/01
+2 -3
+Documentation work and Code Observations
+Done
+Overall
+  12 – 13 
+_
+_
+
+
+2. Observations :
+
+    • Yolov8 Instance Segmentation and 
+
+3. Improvements in Object Detection and Tracking:
+
+	A. Adding Parent to child relationship on Classids to get less confusion and more 
+
+
+
+4. Future Version / Changes:
+    • GPU support can be provided in code , which can reduce inference time by 10x.
+    • Model selection automation code that detects the frame size and harware capabilities to select model size of its own.
+    • 
+
+5. References:
+
+    • opencv documention -  https://docs.opencv.org/4.9.0/
+    • ultralytics Yolo documentation - https://docs.ultralytics.com/models/yolov8/
+
+
